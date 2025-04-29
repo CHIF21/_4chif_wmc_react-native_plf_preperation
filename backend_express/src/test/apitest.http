@@ -1,0 +1,48 @@
+### GET all products
+GET http://localhost:3000/products
+
+### GET product by ID
+GET http://localhost:3000/products/2
+
+### PATCH product (update amount + price)
+PATCH http://localhost:3000/products/10
+Content-Type: application/json
+
+{
+  "price": 15.99
+}
+
+### GET all users
+GET http://localhost:3000/users
+
+### POST new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "products": []
+}
+
+### POST add product to user cart
+POST http://localhost:3000/users/68114548b532bd760f021b69/add-product
+Content-Type: application/json
+
+{
+  "productNr": 8,
+  "amount": 1
+}
+
+### PATCH update product amount in cart
+PATCH http://localhost:3000/users/68114548b532bd760f021b69/update-product
+Content-Type: application/json
+
+{
+  "productNr": 2,
+  "amount": 8
+}
+
+### DELETE product from cart
+
+DELETE http://localhost:3000/users/68114548b532bd760f021b69/remove-product/1
