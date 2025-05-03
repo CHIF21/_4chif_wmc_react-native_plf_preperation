@@ -41,7 +41,7 @@ var user_model_1 = require("../models/user.model");
 var product_model_1 = require("../models/product.model");
 var router = express.Router();
 // GET all users
-router.get("/", function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -64,8 +64,32 @@ router.get("/", function (_req, res) { return __awaiter(void 0, void 0, void 0, 
         }
     });
 }); });
+router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, user_model_1.User.findOne({ _id: req.params.id })
+                        .populate({
+                        path: "products.product",
+                        model: "Product",
+                        select: "productNr name price category"
+                    })];
+            case 1:
+                user = _a.sent();
+                res.json(user);
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                res.status(500).json({ error: err_2 });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 router.post("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstname, lastname, newUser, savedUser, err_2;
+    var _a, firstname, lastname, newUser, savedUser, err_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -88,8 +112,8 @@ router.post("/", function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 res.status(201).json(savedUser);
                 return [3 /*break*/, 3];
             case 2:
-                err_2 = _b.sent();
-                res.status(500).json({ error: err_2 });
+                err_3 = _b.sent();
+                res.status(500).json({ error: err_3 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -97,7 +121,7 @@ router.post("/", function (req, res) { return __awaiter(void 0, void 0, void 0, 
 }); });
 // POST add product to user cart by productNr
 router.post("/:userId/add-product", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, productNr, _b, amount, userId, _c, user, product_1, existingIndex, result, err_3;
+    var _a, productNr, _b, amount, userId, _c, user, product_1, existingIndex, result, err_4;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
@@ -146,8 +170,8 @@ router.post("/:userId/add-product", function (req, res) { return __awaiter(void 
                 res.json(result);
                 return [3 /*break*/, 6];
             case 5:
-                err_3 = _d.sent();
-                res.status(500).json({ error: err_3 });
+                err_4 = _d.sent();
+                res.status(500).json({ error: err_4 });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
@@ -155,7 +179,7 @@ router.post("/:userId/add-product", function (req, res) { return __awaiter(void 
 }); });
 // PATCH update product amount in cart by productNr
 router.patch("/:userId/update-product", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, productNr, amount, userId, _b, user, product_2, productIndex, result, err_4;
+    var _a, productNr, amount, userId, _b, user, product_2, productIndex, result, err_5;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -205,15 +229,15 @@ router.patch("/:userId/update-product", function (req, res) { return __awaiter(v
                 res.json(result);
                 return [3 /*break*/, 6];
             case 5:
-                err_4 = _c.sent();
-                res.status(500).json({ error: err_4 });
+                err_5 = _c.sent();
+                res.status(500).json({ error: err_5 });
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
     });
 }); });
 router.delete("/:userId/remove-product/:productNr", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userId, productNr, product, user, err_5;
+    var _a, userId, productNr, product, user, err_6;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -250,8 +274,8 @@ router.delete("/:userId/remove-product/:productNr", function (req, res) { return
                 res.json({ message: "Product removed from cart", });
                 return [3 /*break*/, 5];
             case 4:
-                err_5 = _b.sent();
-                res.status(500).json({ error: err_5 });
+                err_6 = _b.sent();
+                res.status(500).json({ error: err_6 });
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }

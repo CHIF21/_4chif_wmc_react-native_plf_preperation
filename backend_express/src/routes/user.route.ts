@@ -5,7 +5,7 @@ import { Product } from "../models/product.model";
 const router = express.Router();
 
 // GET all users
-router.get("/", async (_req, res) => {
+router.get("/", async (req, res) => {
     try {
         const users = await User.find().populate({
             path: "products.product",
@@ -14,6 +14,22 @@ router.get("/", async (_req, res) => {
         });
 
         res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
+
+
+router.get("/:id", async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.params.id })
+            .populate({
+                path: "products.product",
+                model: "Product",
+                select: "productNr name price category"
+            });
+
+        res.json(user);
     } catch (err) {
         res.status(500).json({ error: err });
     }
